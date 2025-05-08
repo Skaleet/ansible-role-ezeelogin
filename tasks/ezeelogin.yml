@@ -100,6 +100,9 @@
     creates: "{{ is_ezeelogin_update | ternary(omit, '/usr/local/etc/ezlogin/ez.conf') }}"
   register: ezeelogin_installation
 
+- debug:
+    var: ezeelogin_installation
+
 - name: Register Ezeelogin generated variables on standalone and master nodes
   set_fact:
     ezeelogin_generated_mysql_database: "{{ ezeelogin_installation.stdout | regex_findall('MySQL\\sdatabase\\s+?:\\s(.+?)\\n') | default([]) | first }}"
