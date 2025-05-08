@@ -94,7 +94,7 @@
     ezeelogin_bin: "{{ (ezeelogin_download_url | urlsplit('path'))[1:] }}"
 
 - name: Install Ezeelogin
-  ansible.builtin.shell: "{{ ezeelogin_default_installation_args | union(ezeelogin_installation_args | default([])) | join(' ') }}"
+  ansible.builtin.shell: "{{ ((ezeelogin_default_installation_args | default([])) + (ezeelogin_installation_args | default([]))) | join(' ') }}"
   args:
     executable: /bin/bash
     creates: "{{ is_ezeelogin_update | ternary(omit, '/usr/local/etc/ezlogin/ez.conf') }}"
