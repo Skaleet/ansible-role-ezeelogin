@@ -102,9 +102,9 @@
 
 - name: Register Ezeelogin generated variables on standalone and master nodes
   set_fact:
-    ezeelogin_generated_mysql_database: "{{ ezeelogin_installation.stdout | regex_search('MySQL\\sdatabase\\s+?:\\s(.+?)\\n', '\\1') | first }}"
-    ezeelogin_generated_mysql_user: "{{ ezeelogin_installation.stdout | regex_search('MySQL\\suser\\s+?:\\s(.+?)\\n', '\\1') | first }}"
-    ezeelogin_generated_mysql_password: "{{ ezeelogin_installation.stdout | regex_search('MySQL\\spassword\\s+?:\\s(.+?)\\n', '\\1') | first }}"
+    ezeelogin_generated_mysql_database: "{{ ezeelogin_installation.stdout | regex_findall('MySQL\\sdatabase\\s+?:\\s(.+?)\\n') | default([]) | first }}"
+    ezeelogin_generated_mysql_user: "{{ ezeelogin_installation.stdout | regex_findall('MySQL\\suser\\s+?:\\s(.+?)\\n') | default([]) | first }}"
+    ezeelogin_generated_mysql_password: "{{ ezeelogin_installation.stdout | regex_findall('MySQL\\spassword\\s+?:\\s(.+?)\\n') | default([]) | first }}"
   when: ezeelogin_installation is changed and (not ezeelogin_is_clustered | default(false) or ezeelogin_is_master)
 
 - name: Ezeelogin master specific configuration
